@@ -12,7 +12,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-
+/**
+ * 
+ * @author Pablo Garrido Marin
+ *
+ */
 
 public class VentanaPrincipal {
 
