@@ -37,6 +37,12 @@ public class ControlJuego {
 
 		// TODO: Repartir minas e inicializar puntaciï¿½n. Si hubiese un tablero
 		// anterior, lo pongo todo a cero para inicializarlo.
+		for (int i = 0; i < tablero.length; i++) {
+			for (int j = 0; j < tablero.length; j++) {
+				tablero[i][j]=0;
+			}
+		}
+		puntuacion=0;
 		// Creamos una variable boolean para saber si la posicion del tablero esta
 		// ocupada
 		boolean ocupada = false;
@@ -83,97 +89,10 @@ public class ControlJuego {
 	 **/
 	private int calculoMinasAdjuntas(int i, int j) {
 		int minasAdjuntas = 0;
-		if (i == 0) {
-			if (j == 0) {
-				// mirar abajo diagonal hacia abajoderecha, derecha
-				for (int k = i; k <= i + 1; k++) {
-					for (int k2 = j; k2 <= j + 1; k2++) {
-						if (tablero[k][k2] == MINA) {
-							minasAdjuntas++;
-						}
-					}
-				}
-			} else if (j == LADO_TABLERO - 1) {
-				// mirar abajo diagonal hacia abajoizquierda, izquierda
-				for (int k = i; k <= i + 1; k++) {
-					for (int k2 = j; k2 >= j - 1; k2--) {
-						if (tablero[k][k2] == MINA) {
-							minasAdjuntas++;
-						}
-					}
-				}
-
-			} else {
-				// mirar abajo, izquierda, derecha, diagonales hacia abajo izquierda y derecha
-				for (int k = i; k <= i + 1; k++) {
-					for (int k2 = j - 1; k2 <= j + 1; k2++) {
-						if (tablero[k][k2] == MINA) {
-							minasAdjuntas++;
-						}
-					}
-				}
-			}
-		}
-		if (i == LADO_TABLERO - 1) {
-			if (j == 0) {
-				// mirar arriba diagonal hacia arribaderecha, derecha
-				for (int k = i; k >= i - 1; k--) {
-					for (int k2 = j; k2 <= j + 1; k2++) {
-						if (tablero[k][k2] == MINA) {
-							minasAdjuntas++;
-						}
-					}
-				}
-			} else if (j == LADO_TABLERO - 1) {
-				// mirar arriba diagonal hacia arribaizquierda, izquierda
-				for (int k = i; k >= i - 1; k--) {
-					for (int k2 = j; k2 >= j - 1; k2--) {
-						if (tablero[k][k2] == MINA) {
-							minasAdjuntas++;
-						}
-					}
-				}
-			} else {
-				// mirar arriba, izquierda, derecha, diagonales hacia arriba izquierda y derecha
-				for (int k = i; k >= i - 1; k--) {
-					for (int k2 = j - 1; k2 <= j + 1; k2++) {
-						if (tablero[k][k2] == MINA) {
-							minasAdjuntas++;
-						}
-					}
-				}
-			}
-		}
-
-		if (i > 0 && i < LADO_TABLERO - 1) {
-			if (j == 0) {
-				// mirar arriba, diagonal derecha arriba. derecha, diagonal abajo derecha y
-				// abajo
-				for (int k = i - 1; k <= i + 1; k++) {
-					for (int k2 = j; k2 <= j + 1; k2++) {
-						if (tablero[k][k2] == MINA) {
-							minasAdjuntas++;
-						}
-					}
-				}
-			} else if (j == LADO_TABLERO - 1) {
-				// mirar arriba, diagonal izquierda arriba, izquierda, diagonal abajo izquierda,
-				// abajo
-				for (int k = i - 1; k <= i + 1; k++) {
-					for (int k2 = j; k2 >= j - 1; k2--) {
-						if (tablero[k][k2] == MINA) {
-							minasAdjuntas++;
-						}
-					}
-				}
-			}
-		}
-
-		if ((i > 0 && i < LADO_TABLERO - 1) && (j > 0 && j < LADO_TABLERO - 1)) {
-			// mirar todas las posiciones
-			for (int k = i - 1; k <= i + 1; k++) {
-				for (int k2 = j - 1; k2 <= j + 1; k2++) {
-					if (tablero[k][k2] == MINA) {
+		for (int vertical = i-1; vertical <= i+1; vertical++) {
+			for (int horizontal = j-1; horizontal <= j+1; horizontal++) {
+				if (!(vertical<0 || vertical > LADO_TABLERO-1 || horizontal < 0 || horizontal > LADO_TABLERO-1)) {
+					if (tablero[vertical][horizontal] == MINA) {
 						minasAdjuntas++;
 					}
 				}

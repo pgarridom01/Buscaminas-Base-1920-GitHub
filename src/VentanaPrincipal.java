@@ -2,7 +2,6 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -35,10 +34,10 @@ public class VentanaPrincipal {
 	// Hacemos esto para que podamos cambiar despu√©s los componentes por otros
 	JPanel[][] panelesJuego;
 	JButton[][] botonesJuego;
-
+	GuardarPuntuacion guardar = new GuardarPuntuacion();
 	// Correspondencia de colores para las minas:
 	Color correspondenciaColores[] = { Color.BLACK, Color.CYAN, Color.GREEN, Color.ORANGE, Color.RED, Color.RED,
-			Color.RED, Color.RED, Color.RED, Color.RED };
+			Color.RED, Color.RED, Color.RED };
 
 	JButton botonEmpezar;
 	JTextField pantallaPuntuacion;
@@ -49,7 +48,10 @@ public class VentanaPrincipal {
 	// Constructor, marca el tama√±o y el cierre del frame
 	public VentanaPrincipal() {
 		ventana = new JFrame();
-		ventana.setBounds(100, 100, 700, 500);
+		// Le dou un width y height un poco mas pequeÒo del total de la pantalla
+		ventana.setBounds(0, 0, 700, 500);
+		// Situo la ventana en el medio de la pantalla
+		ventana.setLocationRelativeTo(null);
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		juego = new ControlJuego();
 		juego.depurarTablero();
@@ -88,7 +90,7 @@ public class VentanaPrincipal {
 		settings.gridx = 0;
 		settings.gridy = 0;
 		settings.weightx = 1;
-		settings.weighty = 1;
+		//settings.weighty = 1;
 		settings.fill = GridBagConstraints.BOTH;
 		ventana.add(panelImagen, settings);
 		// VERDE
@@ -96,7 +98,7 @@ public class VentanaPrincipal {
 		settings.gridx = 1;
 		settings.gridy = 0;
 		settings.weightx = 1;
-		settings.weighty = 1;
+		//settings.weighty = 1;
 		settings.fill = GridBagConstraints.BOTH;
 		ventana.add(panelEmpezar, settings);
 		// AMARILLO
@@ -104,7 +106,7 @@ public class VentanaPrincipal {
 		settings.gridx = 2;
 		settings.gridy = 0;
 		settings.weightx = 1;
-		settings.weighty = 1;
+		//settings.weighty = 1;
 		settings.fill = GridBagConstraints.BOTH;
 		ventana.add(panelPuntuacion, settings);
 		// ROJO
@@ -131,7 +133,7 @@ public class VentanaPrincipal {
 		botonesJuego = new JButton[10][10];
 		for (int i = 0; i < botonesJuego.length; i++) {
 			for (int j = 0; j < botonesJuego[i].length; j++) {
-				botonesJuego[i][j] = new JButton("-");
+				botonesJuego[i][j] = new JButton();
 				panelesJuego[i][j].add(botonesJuego[i][j]);
 			}
 		}
@@ -148,13 +150,15 @@ public class VentanaPrincipal {
 	 */
 	public void inicializarListeners() {
 		botonEmpezar.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+				reiniciarPartida();
+				actualizarPuntuacion();
+				refrescarPantalla();
 			}
 		});
-		
+
 		for (int i = 0; i < botonesJuego.length; i++) {
 			for (int j = 0; j < botonesJuego.length; j++) {
 				botonesJuego[i][j].addMouseListener(new ActionBoton(i, j, this));
@@ -178,7 +182,7 @@ public class VentanaPrincipal {
 		if (juego.abrirCasilla(i, j)) {
 			JLabel nMina = new JLabel();
 			panelesJuego[i][j].removeAll();
-			// Opciones para el jlabel (Texto, color y alineacion).
+
 			nMina.setText(String.valueOf(juego.getMinasAlrededor(i, j)));
 			nMina.setForeground(correspondenciaColores[numero]);
 			nMina.setHorizontalAlignment(JLabel.CENTER);
@@ -198,33 +202,51 @@ public class VentanaPrincipal {
 	 * Muestra una ventana que indica el fin del juego
 	 * 
 	 * @param explosion : Un booleano que indica si es final del juego porque ha
-	 *                     explotado una mina (true) o bien porque hemos desactivado
-	 *                     todas (false)
+	 *                  explotado una mina (true) o bien porque hemos desactivado
+	 *                  todas (false)
 	 * @post : Todos los botones se desactivan excepto el de volver a iniciar el
 	 *       juego.
 	 */
 	public void mostrarFinJuego(boolean explosion) {
-		int op = -1;
+		int op=10;
 		// Si hemos perdido.
+		
 		if (explosion) {
 			mostrarRestoTablero();
-			op = JOptionPane.showConfirmDialog(null, "Una bomba ha explotado. øQuieres volver a jugar?", "HAS PERDIDO",
-					JOptionPane.YES_NO_OPTION, 0);
+			op = JOptionPane.showConfirmDialog(ventana,
+					"Una bomba ha explotado. øQuieres volver a jugar?\nPuntuacion: "+pantallaPuntuacion.getText(),
+					"HAS PERDIDO", JOptionPane.YES_NO_OPTION, 0, new ImageIcon("Imagenes/emojiMuerto.png"));
 		}
 		// Si hemos ganado.
 		if (!explosion && juego.esFinJuego()) {
-			op = JOptionPane.showConfirmDialog(null, "øQuieres volver a jugar?", "HAS GANADO.",
-					JOptionPane.YES_NO_OPTION, 0);
+			op = JOptionPane.showConfirmDialog(ventana,
+					"øQuieres volver a jugar?\nPuntuacion: " + pantallaPuntuacion.getText(), "HAS GANADO.",
+					JOptionPane.YES_NO_OPTION, 0, new ImageIcon("Imagenes/emojiFeliz.png"));
+
 		}
 		// Si es si iniciamos de nuevo el juego.
 		if (op == 0) {
-			juego.inicializarPartida();
+			reiniciarPartida();
+			for (int i = 0; i < botonesJuego.length; i++) {
+				for (int j = 0; j < botonesJuego.length; j++) {
+					botonesJuego[i][j].setIcon(null);
+				}
+			}
+			guardar.guardarPuntuacion(this);	
+			botonEmpezar.setIcon(new ImageIcon("Imagenes/emojiFeliz.png"));
+			actualizarPuntuacion();
 			refrescarPantalla();
 		}
 		// Si es no cerramos el juego.
 		if (op == 1) {
+			guardar.guardarPuntuacion(this);
 			ventana.dispose();
 		}
+		if (op==-1) {
+			guardar.guardarPuntuacion(this);
+			ventana.dispose();
+		}
+		
 	}
 
 	/**
@@ -261,6 +283,7 @@ public class VentanaPrincipal {
 		inicializarComponentes();
 		inicializarListeners();
 	}
+
 	/**
 	 * Metodo para mostrar el resto del tablero cuando se pierde
 	 */
@@ -286,4 +309,27 @@ public class VentanaPrincipal {
 		}
 		refrescarPantalla();
 	}
+
+	public void reiniciarPartida() {
+		juego.inicializarPartida();
+		for (int i = 0; i < panelesJuego.length; i++) {
+			for (int j = 0; j < panelesJuego.length; j++) {
+				panelesJuego[i][j].removeAll();
+				panelesJuego[i][j].add(botonesJuego[i][j]);
+			}
+		}
+
+	}
+	
+	public void colocarBandera(int i, int j) {
+		botonesJuego[i][j].setIcon(new ImageIcon("Imagenes/bandera.png"));
+	}
+	public void quitarBandera(int i, int j) {
+		botonesJuego[i][j].setIcon(null);
+	}
+	public boolean comprobarBandera(int i, int j) {
+		return botonesJuego[i][j].getIcon() == null;
+	}
+	
+	
 }
