@@ -4,7 +4,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -48,13 +47,11 @@ public class VentanaPrincipal {
 	// Constructor, marca el tamaÃ±o y el cierre del frame
 	public VentanaPrincipal() {
 		ventana = new JFrame();
-		// Le dou un width y height un poco mas pequeño del total de la pantalla
 		ventana.setBounds(0, 0, 700, 500);
 		// Situo la ventana en el medio de la pantalla
 		ventana.setLocationRelativeTo(null);
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		juego = new ControlJuego();
-		juego.depurarTablero();
 	}
 
 	// Inicializa todos los componentes del frame
@@ -70,9 +67,9 @@ public class VentanaPrincipal {
 		panelPuntuacion = new JPanel();
 		panelPuntuacion.setLayout(new GridLayout(1, 1));
 		panelJuego = new JPanel();
-		panelJuego.setLayout(new GridLayout(10, 10));
-		ImageIcon icon = new ImageIcon("Imagenes/emojiFeliz.png");
+		panelJuego.setLayout(new GridLayout(juego.LADO_TABLERO, juego.LADO_TABLERO));
 
+		ImageIcon icon = new ImageIcon("Imagenes/emojiFeliz.png");
 		botonEmpezar = new JButton(icon);
 		pantallaPuntuacion = new JTextField("0");
 		pantallaPuntuacion.setEditable(false);
@@ -90,7 +87,6 @@ public class VentanaPrincipal {
 		settings.gridx = 0;
 		settings.gridy = 0;
 		settings.weightx = 1;
-		//settings.weighty = 1;
 		settings.fill = GridBagConstraints.BOTH;
 		ventana.add(panelImagen, settings);
 		// VERDE
@@ -98,7 +94,6 @@ public class VentanaPrincipal {
 		settings.gridx = 1;
 		settings.gridy = 0;
 		settings.weightx = 1;
-		//settings.weighty = 1;
 		settings.fill = GridBagConstraints.BOTH;
 		ventana.add(panelEmpezar, settings);
 		// AMARILLO
@@ -106,7 +101,6 @@ public class VentanaPrincipal {
 		settings.gridx = 2;
 		settings.gridy = 0;
 		settings.weightx = 1;
-		//settings.weighty = 1;
 		settings.fill = GridBagConstraints.BOTH;
 		ventana.add(panelPuntuacion, settings);
 		// ROJO
@@ -120,7 +114,7 @@ public class VentanaPrincipal {
 		ventana.add(panelJuego, settings);
 
 		// Paneles
-		panelesJuego = new JPanel[10][10];
+		panelesJuego = new JPanel[juego.LADO_TABLERO][juego.LADO_TABLERO];
 		for (int i = 0; i < panelesJuego.length; i++) {
 			for (int j = 0; j < panelesJuego[i].length; j++) {
 				panelesJuego[i][j] = new JPanel();
@@ -130,7 +124,7 @@ public class VentanaPrincipal {
 		}
 
 		// Botones
-		botonesJuego = new JButton[10][10];
+		botonesJuego = new JButton[juego.LADO_TABLERO][juego.LADO_TABLERO];
 		for (int i = 0; i < botonesJuego.length; i++) {
 			for (int j = 0; j < botonesJuego[i].length; j++) {
 				botonesJuego[i][j] = new JButton();
@@ -153,12 +147,21 @@ public class VentanaPrincipal {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				// Si pulso el emoji para empezar una nueva partida reinicio la partida
 				reiniciarPartida();
+				// quito los iconos de banderas que pueda haber en los botones
+				for (int i = 0; i < botonesJuego.length; i++) {
+					for (int j = 0; j < botonesJuego.length; j++) {
+						botonesJuego[i][j].setIcon(null);
+					}
+				}
+				// actualizo la puntuacion a 0
 				actualizarPuntuacion();
+				// refresco la pantalla
 				refrescarPantalla();
 			}
 		});
-
+		// Establezo los listener de los demas botones
 		for (int i = 0; i < botonesJuego.length; i++) {
 			for (int j = 0; j < botonesJuego.length; j++) {
 				botonesJuego[i][j].addMouseListener(new ActionBoton(i, j, this));
@@ -179,19 +182,20 @@ public class VentanaPrincipal {
 	 */
 	public void mostrarNumMinasAlrededor(int i, int j) {
 		int numero = juego.getMinasAlrededor(i, j);
-		if (juego.abrirCasilla(i, j)) {
+		// Miro si la casilla que abro a ver si es una mina o no
+		if (juego.abrirCasilla(i, j)) { // En caso de que no sea una mina
 			JLabel nMina = new JLabel();
 			panelesJuego[i][j].removeAll();
-
+			// Establezo nº minas, color y centro el texto
 			nMina.setText(String.valueOf(juego.getMinasAlrededor(i, j)));
 			nMina.setForeground(correspondenciaColores[numero]);
 			nMina.setHorizontalAlignment(JLabel.CENTER);
-
+			// Añado el JLabel al panel del juego
 			panelesJuego[i][j].add(nMina);
 			actualizarPuntuacion();
 			refrescarPantalla();
 			mostrarFinJuego(false);
-		} else {
+		} else { // Caso en el que la casilla contiene una mina
 			botonEmpezar.setIcon(new ImageIcon("Imagenes/emojiMuerto.png"));
 			mostrarFinJuego(true);
 
@@ -208,13 +212,14 @@ public class VentanaPrincipal {
 	 *       juego.
 	 */
 	public void mostrarFinJuego(boolean explosion) {
-		int op=10;
+		// Guardo un numero cualquiera para inicializarla
+		int op = 10;
+
 		// Si hemos perdido.
-		
 		if (explosion) {
 			mostrarRestoTablero();
 			op = JOptionPane.showConfirmDialog(ventana,
-					"Una bomba ha explotado. ¿Quieres volver a jugar?\nPuntuacion: "+pantallaPuntuacion.getText(),
+					"Una bomba ha explotado. ¿Quieres volver a jugar?\nPuntuacion: " + pantallaPuntuacion.getText(),
 					"HAS PERDIDO", JOptionPane.YES_NO_OPTION, 0, new ImageIcon("Imagenes/emojiMuerto.png"));
 		}
 		// Si hemos ganado.
@@ -232,21 +237,22 @@ public class VentanaPrincipal {
 					botonesJuego[i][j].setIcon(null);
 				}
 			}
-			guardar.guardarPuntuacion(this);	
+			// guardar.guardarPuntuacion(this);
 			botonEmpezar.setIcon(new ImageIcon("Imagenes/emojiFeliz.png"));
 			actualizarPuntuacion();
 			refrescarPantalla();
 		}
 		// Si es no cerramos el juego.
 		if (op == 1) {
-			guardar.guardarPuntuacion(this);
+			// guardar.guardarPuntuacion(this);
 			ventana.dispose();
 		}
-		if (op==-1) {
-			guardar.guardarPuntuacion(this);
+		// Si pulsamos la X entendemos que tampoco quiere seguir jugando
+		if (op == -1) {
+			// guardar.guardarPuntuacion(this);
 			ventana.dispose();
 		}
-		
+
 	}
 
 	/**
@@ -310,6 +316,9 @@ public class VentanaPrincipal {
 		refrescarPantalla();
 	}
 
+	/**
+	 * Metodo para borrar lo que habia y empezar el juego de nuevo
+	 */
 	public void reiniciarPartida() {
 		juego.inicializarPartida();
 		for (int i = 0; i < panelesJuego.length; i++) {
@@ -320,16 +329,35 @@ public class VentanaPrincipal {
 		}
 
 	}
-	
+
+	/**
+	 * Metodo para colocar la bandera en el boton[i][j]
+	 * 
+	 * @param i Posicion vertical de la celda
+	 * @param j Posicion horizontal de la celda
+	 */
 	public void colocarBandera(int i, int j) {
 		botonesJuego[i][j].setIcon(new ImageIcon("Imagenes/bandera.png"));
 	}
+
+	/**
+	 * Metodo para quitar la bandera del boton[i][j]
+	 * 
+	 * @param i Posicion vertical de la celda
+	 * @param j Posicion horizontal de la celda
+	 */
 	public void quitarBandera(int i, int j) {
 		botonesJuego[i][j].setIcon(null);
 	}
+
+	/**
+	 * Metodo para comprobar si hay bandera en el boton[i][j]
+	 * 
+	 * @param i Posicion vertical de la celda
+	 * @param j Posicion horizontal de la celda
+	 */
 	public boolean comprobarBandera(int i, int j) {
 		return botonesJuego[i][j].getIcon() == null;
 	}
-	
-	
+
 }

@@ -1,3 +1,4 @@
+import javax.swing.JOptionPane;
 
 /**
  * Clase gestora del tablero de juego. Guarda una matriz de enteros representado
@@ -11,14 +12,37 @@
 public class ControlJuego {
 
 	private final static int MINA = -1;
-	final int MINAS_INICIALES = 20;
-	final int LADO_TABLERO = 10;
+	final int MINAS_INICIALES;
+	final int LADO_TABLERO;
 
 	private int[][] tablero;
 	private int puntuacion;
 
+	String[] niveles = { "Facil", "Medio", "Dificil" };
+
 	public ControlJuego() {
 		// Creamos el tablero:
+		int opc = JOptionPane.showOptionDialog(null, "Seleccione un nivel", "Nivel", JOptionPane.YES_NO_CANCEL_OPTION,
+				JOptionPane.QUESTION_MESSAGE, null, niveles, "Facil");
+		switch (opc) {
+		case 0: // Opcion facil
+			LADO_TABLERO = 10;
+			MINAS_INICIALES = 20;
+			break;
+		case 1: // Opcion medio
+			LADO_TABLERO = 15;
+			MINAS_INICIALES = 45;
+			break;
+		case 2: // Opcion dificil
+			LADO_TABLERO = 20;
+			MINAS_INICIALES = 80;
+			break;
+		default: // Por defecto, si cierra el seleccionador de nivel, se inicia el juego en nivel
+					// facil
+			LADO_TABLERO = 10;
+			MINAS_INICIALES = 20;
+			break;
+		}
 		tablero = new int[LADO_TABLERO][LADO_TABLERO];
 
 		// Inicializamos una nueva partida
@@ -39,10 +63,11 @@ public class ControlJuego {
 		// anterior, lo pongo todo a cero para inicializarlo.
 		for (int i = 0; i < tablero.length; i++) {
 			for (int j = 0; j < tablero.length; j++) {
-				tablero[i][j]=0;
+				tablero[i][j] = 0;
 			}
 		}
-		puntuacion=0;
+
+		puntuacion = 0;
 		// Creamos una variable boolean para saber si la posicion del tablero esta
 		// ocupada
 		boolean ocupada = false;
@@ -89,9 +114,9 @@ public class ControlJuego {
 	 **/
 	private int calculoMinasAdjuntas(int i, int j) {
 		int minasAdjuntas = 0;
-		for (int vertical = i-1; vertical <= i+1; vertical++) {
-			for (int horizontal = j-1; horizontal <= j+1; horizontal++) {
-				if (!(vertical<0 || vertical > LADO_TABLERO-1 || horizontal < 0 || horizontal > LADO_TABLERO-1)) {
+		for (int vertical = i - 1; vertical <= i + 1; vertical++) {
+			for (int horizontal = j - 1; horizontal <= j + 1; horizontal++) {
+				if (!(vertical < 0 || vertical > LADO_TABLERO - 1 || horizontal < 0 || horizontal > LADO_TABLERO - 1)) {
 					if (tablero[vertical][horizontal] == MINA) {
 						minasAdjuntas++;
 					}
@@ -111,9 +136,11 @@ public class ControlJuego {
 	 * @return : Verdadero si no ha explotado una mina. Falso en caso contrario.
 	 */
 	public boolean abrirCasilla(int i, int j) {
+
 		if (tablero[i][j] == MINA) {
 			return false;
 		} else {
+
 			puntuacion++;
 			return true;
 		}
