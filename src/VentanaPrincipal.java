@@ -15,8 +15,17 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 /**
+ * Creacion de la ventana e implementacion del juego
+ * 
+ * {@link #inicializar()} {@code 
+ * 		ventana.setVisible(true);
+		inicializarComponentes();
+		inicializarListeners();}
  * 
  * @author Pablo Garrido Marin
+ * @version 1.7
+ * @since 22/10/2019
+ * @see ControlJuego
  *
  */
 
@@ -139,7 +148,7 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * MÃ©todo que inicializa todos los lÃ­steners que necesita inicialmente el
+	 * Método que inicializa todos los listeners que necesita inicialmente el
 	 * programa
 	 */
 	public void inicializarListeners() {
@@ -170,15 +179,14 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * Pinta en la pantalla el nÃºmero de minas que hay alrededor de la celda Saca
-	 * el botÃ³n que haya en la celda determinada y aÃ±ade un JLabel centrado y no
-	 * editable con el nÃºmero de minas alrededor. Se pinta el color del texto
-	 * segÃºn la siguiente correspondecia (consultar la variable
-	 * correspondeciaColor): - 0 : negro - 1 : cyan - 2 : verde - 3 : naranja - 4 Ã³
-	 * mÃ¡s : rojo
+	 * Pinta en la pantalla el número de minas que hay alrededor de la celda Saca el
+	 * botón que haya en la celda determinada y añade un JLabel centrado y no
+	 * editable con el número de minas alrededor. Se pinta el color del texto según
+	 * la siguiente correspondecia (consultar la variable correspondeciaColor): - 0
+	 * : negro - 1 : cyan - 2 : verde - 3 : naranja - 4 ó más : rojo
 	 * 
-	 * @param i: posiciÃ³n vertical de la celda.
-	 * @param j: posiciÃ³n horizontal de la celda.
+	 * @param i: posición vertical de la celda.
+	 * @param j: posición horizontal de la celda.
 	 */
 	public void mostrarNumMinasAlrededor(int i, int j) {
 		int numero = juego.getMinasAlrededor(i, j);
@@ -256,14 +264,14 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * MÃ©todo que muestra la puntuaciÃ³n por pantalla.
+	 * Método que muestra la puntuación por pantalla.
 	 */
 	public void actualizarPuntuacion() {
 		pantallaPuntuacion.setText(String.valueOf(juego.getPuntuacion()));
 	}
 
 	/**
-	 * MÃ©todo para refrescar la pantalla
+	 * Método para refrescar la pantalla
 	 */
 	public void refrescarPantalla() {
 		ventana.revalidate();
@@ -271,7 +279,7 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * MÃ©todo que devuelve el control del juego de una ventana
+	 * Método que devuelve el control del juego de una ventana
 	 * 
 	 * @return un ControlJuego con el control del juego de la ventana
 	 */
@@ -280,7 +288,7 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * MÃ©todo para inicializar el programa
+	 * Método para inicializar el programa
 	 */
 	public void inicializar() {
 		// IMPORTANTE, PRIMERO HACEMOS LA VENTANA VISIBLE Y LUEGO INICIALIZAMOS LOS
