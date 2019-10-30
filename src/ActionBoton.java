@@ -19,6 +19,12 @@ public class ActionBoton implements MouseListener {
 		// TODO
 	}
 
+	/**
+	 * 
+	 * @param i       posicion vertical del panel
+	 * @param j       posicion horizontal del panel
+	 * @param ventana ventana del juego
+	 */
 	public ActionBoton(int i, int j, VentanaPrincipal ventana) {
 		this.i = i;
 		this.j = j;
@@ -28,11 +34,16 @@ public class ActionBoton implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
+		// En caso de que pulse el boton izquierdo compuebo si tiene puesta bandera, en
+		// caso de que la tenga no hace nada, si no tiene bandera, abre ese boton
 		if (e.getButton() == MouseEvent.BUTTON1) {
 			if (ventana.comprobarBandera(i, j)) {
 				ventana.mostrarNumMinasAlrededor(i, j);
 			}
 		}
+
+		// Si pulsa el boton derecho, compruebo si hay bandera, si la hay la quito y en
+		// caso de que no la haya, la pongo
 
 		if (e.getButton() == MouseEvent.BUTTON3) {
 			if (!ventana.comprobarBandera(i, j)) {

@@ -237,19 +237,19 @@ public class VentanaPrincipal {
 					botonesJuego[i][j].setIcon(null);
 				}
 			}
-			// guardar.guardarPuntuacion(this);
+			guardar.guardarPuntuacion(this, juego.nivel);
 			botonEmpezar.setIcon(new ImageIcon("Imagenes/emojiFeliz.png"));
 			actualizarPuntuacion();
 			refrescarPantalla();
 		}
 		// Si es no cerramos el juego.
 		if (op == 1) {
-			// guardar.guardarPuntuacion(this);
+			guardar.guardarPuntuacion(this, juego.nivel);
 			ventana.dispose();
 		}
 		// Si pulsamos la X entendemos que tampoco quiere seguir jugando
 		if (op == -1) {
-			// guardar.guardarPuntuacion(this);
+			guardar.guardarPuntuacion(this, juego.nivel);
 			ventana.dispose();
 		}
 

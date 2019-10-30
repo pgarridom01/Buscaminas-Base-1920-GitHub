@@ -19,28 +19,34 @@ public class ControlJuego {
 	private int puntuacion;
 
 	String[] niveles = { "Facil", "Medio", "Dificil" };
+	String nivel;
 
 	public ControlJuego() {
 		// Creamos el tablero:
+		// Pido el nivel al que desea jugar
 		int opc = JOptionPane.showOptionDialog(null, "Seleccione un nivel", "Nivel", JOptionPane.YES_NO_CANCEL_OPTION,
 				JOptionPane.QUESTION_MESSAGE, null, niveles, "Facil");
 		switch (opc) {
 		case 0: // Opcion facil
 			LADO_TABLERO = 10;
 			MINAS_INICIALES = 20;
+			nivel = niveles[opc];
 			break;
 		case 1: // Opcion medio
 			LADO_TABLERO = 15;
 			MINAS_INICIALES = 45;
+			nivel = niveles[opc];
 			break;
 		case 2: // Opcion dificil
 			LADO_TABLERO = 20;
 			MINAS_INICIALES = 80;
+			nivel = niveles[opc];
 			break;
 		default: // Por defecto, si cierra el seleccionador de nivel, se inicia el juego en nivel
 					// facil
 			LADO_TABLERO = 10;
 			MINAS_INICIALES = 20;
+			nivel = niveles[0];
 			break;
 		}
 		tablero = new int[LADO_TABLERO][LADO_TABLERO];
