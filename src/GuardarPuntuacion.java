@@ -14,6 +14,7 @@ import java.util.Collections;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
 /**
  * 
  * @author pgarridom01
@@ -22,17 +23,24 @@ import javax.swing.JTextField;
 public class GuardarPuntuacion {
 
 	VentanaPrincipal ventana;
+	ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
+
 	/**
 	 * Metodo donde hago las operaciones necesarias para guardar las puntuaciones
+	 * 
 	 * @param ventana Ventana desde la que juego
-	 * @param nivel Nivel seleccionado en el juego
+	 * @param nivel   Nivel seleccionado en el juego
 	 */
 	public void guardarPuntuacion(VentanaPrincipal ventana, String nivel) {
 		this.ventana = ventana;
 		// Escribo en el fichero los datos de la partida
 		escribirFichero(nivel);
-		// Me creo una lista de jugadores
-		ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
+		colocarPuntuacion(nivel, ventana);
+		// Creo un fichero de texto para poder ver todos las veces que se ha jugado
+		escribirFicheroDeTexto(jugadores, nivel);
+	}
+
+	public void colocarPuntuacion(String nivel, VentanaPrincipal ventana) {
 		// Leo el fichero y voy guardando los jugadores en la lista
 		leerFichero(jugadores, nivel);
 		// Ordeno los jugadores de mayor a menos puntuacion
@@ -47,12 +55,13 @@ public class GuardarPuntuacion {
 		// Quito lo que hay en el panel Imagen
 		ventana.panelImagen.removeAll();
 		// Me creo un JTextField con la puntuacion maxima y el nombre de quien la obtuvo
-		JTextField texto = new JTextField("Punt max: " + puntuacion + "Usu: " + nombre);
-		// Añado al panel Imagen el JTextField para mostrar la mayor puntuacion mientras
-		// juego
-		ventana.panelImagen.add(texto);
-		// Creo un fichero de texto para poder ver todos las veces que se ha jugado
-		escribirFicheroDeTexto(jugadores, nivel);
+		JTextField punt = new JTextField("Punt:"+puntuacion);
+		JTextField nom = new JTextField("Usuario: "+nombre);
+		// Añado al panel Imagen el JTextField para mostrar la mayor puntuacion
+		ventana.panelImagen.add(new JTextField("Puntuacion Maxima"));
+		ventana.panelImagen.add(nom);
+		ventana.panelImagen.add(punt);
+		
 	}
 
 	/**
@@ -170,7 +179,7 @@ public class GuardarPuntuacion {
 			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO: handle exception
-			System.out.println(e.getMessage());
+			System.out.println("Fin de lectura de fichero");
 		}
 	}
 

@@ -20,8 +20,11 @@ public class ControlJuego {
 
 	String[] niveles = { "Facil", "Medio", "Dificil" };
 	String nivel;
+	
+	VentanaPrincipal ventana;
 
-	public ControlJuego() {
+	public ControlJuego(VentanaPrincipal v) {
+		this.ventana = v;
 		// Creamos el tablero:
 		// Pido el nivel al que desea jugar
 		int opc = JOptionPane.showOptionDialog(null, "Seleccione un nivel", "Nivel", JOptionPane.YES_NO_CANCEL_OPTION,
@@ -53,6 +56,7 @@ public class ControlJuego {
 
 		// Inicializamos una nueva partida
 		inicializarPartida();
+		
 	}
 
 	/**

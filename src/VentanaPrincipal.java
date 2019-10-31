@@ -60,7 +60,7 @@ public class VentanaPrincipal {
 		// Situo la ventana en el medio de la pantalla
 		ventana.setLocationRelativeTo(null);
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		juego = new ControlJuego();
+		juego = new ControlJuego(this);
 	}
 
 	// Inicializa todos los componentes del frame
@@ -71,6 +71,7 @@ public class VentanaPrincipal {
 
 		// Inicializamos componentes
 		panelImagen = new JPanel();
+		panelImagen.setLayout(new GridLayout(3, 1));
 		panelEmpezar = new JPanel();
 		panelEmpezar.setLayout(new GridLayout(1, 1));
 		panelPuntuacion = new JPanel();
@@ -144,6 +145,7 @@ public class VentanaPrincipal {
 		// BotÃ³nEmpezar:
 		panelEmpezar.add(botonEmpezar);
 		panelPuntuacion.add(pantallaPuntuacion);
+		guardar.colocarPuntuacion(juego.nivel, this);
 
 	}
 
@@ -262,7 +264,8 @@ public class VentanaPrincipal {
 		}
 
 	}
-
+	
+	
 	/**
 	 * Método que muestra la puntuación por pantalla.
 	 */
