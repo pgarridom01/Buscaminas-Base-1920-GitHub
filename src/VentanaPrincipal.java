@@ -1,3 +1,4 @@
+
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -56,7 +57,7 @@ public class VentanaPrincipal {
 	// Constructor, marca el tamaÃ±o y el cierre del frame
 	public VentanaPrincipal() {
 		ventana = new JFrame();
-		ventana.setBounds(0, 0, 700, 500);
+		ventana.setBounds(0, 0, 900, 700);
 		// Situo la ventana en el medio de la pantalla
 		ventana.setLocationRelativeTo(null);
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -79,7 +80,8 @@ public class VentanaPrincipal {
 		panelJuego = new JPanel();
 		panelJuego.setLayout(new GridLayout(juego.LADO_TABLERO, juego.LADO_TABLERO));
 
-		ImageIcon icon = new ImageIcon("Imagenes/emojiFeliz.png");
+		
+		ImageIcon icon = new ImageIcon(getClass().getResource("/material/emojiFeliz.png"));
 		botonEmpezar = new JButton(icon);
 		pantallaPuntuacion = new JTextField("0");
 		pantallaPuntuacion.setEditable(false);
@@ -206,7 +208,7 @@ public class VentanaPrincipal {
 			refrescarPantalla();
 			mostrarFinJuego(false);
 		} else { // Caso en el que la casilla contiene una mina
-			botonEmpezar.setIcon(new ImageIcon("Imagenes/emojiMuerto.png"));
+			botonEmpezar.setIcon(new ImageIcon(getClass().getResource("/material/emojiMuerto.png")));
 			mostrarFinJuego(true);
 
 		}
@@ -230,13 +232,13 @@ public class VentanaPrincipal {
 			mostrarRestoTablero();
 			op = JOptionPane.showConfirmDialog(ventana,
 					"Una bomba ha explotado. ¿Quieres volver a jugar?\nPuntuacion: " + pantallaPuntuacion.getText(),
-					"HAS PERDIDO", JOptionPane.YES_NO_OPTION, 0, new ImageIcon("Imagenes/emojiMuerto.png"));
+					"HAS PERDIDO", JOptionPane.YES_NO_OPTION, 0, new ImageIcon(getClass().getResource("/material/emojiMuerto.png")));
 		}
 		// Si hemos ganado.
 		if (!explosion && juego.esFinJuego()) {
 			op = JOptionPane.showConfirmDialog(ventana,
 					"¿Quieres volver a jugar?\nPuntuacion: " + pantallaPuntuacion.getText(), "HAS GANADO.",
-					JOptionPane.YES_NO_OPTION, 0, new ImageIcon("Imagenes/emojiFeliz.png"));
+					JOptionPane.YES_NO_OPTION, 0, new ImageIcon(getClass().getResource("/material/emojiFeliz.png")));
 
 		}
 		// Si es si iniciamos de nuevo el juego.
@@ -248,7 +250,7 @@ public class VentanaPrincipal {
 				}
 			}
 			guardar.guardarPuntuacion(this, juego.nivel);
-			botonEmpezar.setIcon(new ImageIcon("Imagenes/emojiFeliz.png"));
+			botonEmpezar.setIcon(new ImageIcon(getClass().getResource("/material/emojiFeliz.png")));
 			actualizarPuntuacion();
 			refrescarPantalla();
 		}
@@ -309,7 +311,7 @@ public class VentanaPrincipal {
 			for (int j = 0; j < juego.LADO_TABLERO; j++) {
 				if (!juego.abrirCasilla(i, j)) {
 					JLabel imagenMina = new JLabel();
-					imagenMina.setIcon(new ImageIcon("Imagenes/mina.png"));
+					imagenMina.setIcon(new ImageIcon(getClass().getResource("/material/mina.png")));
 					imagenMina.setHorizontalAlignment(JLabel.CENTER);
 					panelesJuego[i][j].removeAll();
 					panelesJuego[i][j].add(imagenMina);
@@ -348,7 +350,7 @@ public class VentanaPrincipal {
 	 * @param j Posicion horizontal de la celda
 	 */
 	public void colocarBandera(int i, int j) {
-		botonesJuego[i][j].setIcon(new ImageIcon("Imagenes/bandera.png"));
+		botonesJuego[i][j].setIcon(new ImageIcon(getClass().getResource("/material/bandera.png")));
 	}
 
 	/**

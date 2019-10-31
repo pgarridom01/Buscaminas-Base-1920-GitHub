@@ -1,5 +1,0 @@
-Jugador - Nombre: Pablo - Puntuacion: 11 - Fecha: 2019-10-31 - Hora: 00:07:22.495
-Jugador - Nombre: Pablo - Puntuacion: 11 - Fecha: 2019-10-31 - Hora: 00:07:22.495
-Jugador - Nombre: Pablo - Puntuacion: 3 - Fecha: 2019-10-31 - Hora: 00:07:10.718
-Jugador - Nombre: Pablo - Puntuacion: 3 - Fecha: 2019-10-31 - Hora: 00:07:10.718
-Jugador - Nombre: Pablo - Puntuacion: 2 - Fecha: 2019-10-31 - Hora: 01:08:56.131

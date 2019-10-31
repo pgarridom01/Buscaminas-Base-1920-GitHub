@@ -41,8 +41,8 @@ public class ControlJuego {
 			nivel = niveles[opc];
 			break;
 		case 2: // Opcion dificil
-			LADO_TABLERO = 20;
-			MINAS_INICIALES = 80;
+			LADO_TABLERO = 30;
+			MINAS_INICIALES = 180;
 			nivel = niveles[opc];
 			break;
 		default: // Por defecto, si cierra el seleccionador de nivel, se inicia el juego en nivel

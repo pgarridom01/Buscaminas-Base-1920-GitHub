@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -48,20 +49,28 @@ public class GuardarPuntuacion {
 		// Obtengo el nombre de y la puntuacion del mejor jugador, que estara en la
 		// primera posicion de la lista
 		String nombre = null;
-		if (jugadores.get(0) != null) {
+		int puntuacion = 0;
+		if (jugadores.isEmpty()) {
+			nombre = "Sin datos";
+		} else {
 			nombre = jugadores.get(0).getNombre();
+			puntuacion = jugadores.get(0).getPuntuacion();
 		}
-		int puntuacion = jugadores.get(0).getPuntuacion();
+
 		// Quito lo que hay en el panel Imagen
 		ventana.panelImagen.removeAll();
 		// Me creo un JTextField con la puntuacion maxima y el nombre de quien la obtuvo
-		JTextField punt = new JTextField("Punt:"+puntuacion);
-		JTextField nom = new JTextField("Usuario: "+nombre);
+		JTextField punt = new JTextField("Punt:" + puntuacion);
+		punt.setHorizontalAlignment(JTextField.CENTER);
+		JTextField nom = new JTextField("Usuario: " + nombre);
+		nom.setHorizontalAlignment(JTextField.CENTER);
 		// Añado al panel Imagen el JTextField para mostrar la mayor puntuacion
-		ventana.panelImagen.add(new JTextField("Puntuacion Maxima"));
+		JTextField puntMax = new JTextField("Puntuacion Maxima");
+		puntMax.setHorizontalAlignment(JTextField.CENTER);
+		ventana.panelImagen.add(puntMax);
 		ventana.panelImagen.add(nom);
 		ventana.panelImagen.add(punt);
-		
+
 	}
 
 	/**
@@ -75,19 +84,22 @@ public class GuardarPuntuacion {
 		FileWriter fw = null;
 		PrintWriter pw = null;
 		File fichero = null;
-		String nFichero = "Ficheros de texto//Puntuaciones-Nivel" + nivel + ".txt";
-		// Dependiendo del nivel creo un fichero de texto para cada uno
+		URL url = getClass().getResource("material/");
+		// Dependiendo del nivel creo el fichero
 		switch (nivel) {
+
 		case "Facil":
-			fichero = new File(nFichero);
+			fichero = new File(url.getPath() + "Puntuaciones-" + nivel + ".txt");
 			break;
 		case "Medio":
-			fichero = new File(nFichero);
+			fichero = new File(url.getPath() + "Puntuaciones-" + nivel + ".txt");
+			
 			break;
 		case "Dificil":
-			fichero = new File(nFichero);
+			fichero = new File(url.getPath() + "Puntuaciones-" + nivel + ".txt");
 			break;
 		}
+		System.out.println(fichero.getPath());
 		try {
 			fw = new FileWriter(fichero);
 			pw = new PrintWriter(fw);
@@ -111,17 +123,18 @@ public class GuardarPuntuacion {
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
 		File fichero = null;
-		String nFichero = "Ficheros de objetos//Puntuaciones-Nivel" + nivel + ".obj";
+		URL url = getClass().getResource("/material/");
 		// Dependiendo del nivel creo el fichero
 		switch (nivel) {
+
 		case "Facil":
-			fichero = new File(nFichero);
+			fichero = new File(url.getPath() + "Puntuaciones-" + nivel + ".obj");
 			break;
 		case "Medio":
-			fichero = new File(nFichero);
+			fichero = new File(url.getPath() + "Puntuaciones-" + nivel + ".obj");
 			break;
 		case "Dificil":
-			fichero = new File(nFichero);
+			fichero = new File(url.getPath() + "Puntuaciones-" + nivel + ".obj");
 			break;
 		}
 		try {
@@ -156,17 +169,18 @@ public class GuardarPuntuacion {
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;
 		File fichero = null;
-		String nFichero = "Ficheros de objetos//Puntuaciones-Nivel" + nivel + ".obj";
-		// Dependiendo del nivel, leo el fichero correspondiente para cada nivel
+		URL url = getClass().getResource("/material/");
+		// Dependiendo del nivel creo el fichero
 		switch (nivel) {
+
 		case "Facil":
-			fichero = new File(nFichero);
+			fichero = new File(url.getPath() + "Puntuaciones-" + nivel + ".obj");
 			break;
 		case "Medio":
-			fichero = new File(nFichero);
+			fichero = new File(url.getPath() + "Puntuaciones-" + nivel + ".obj");
 			break;
 		case "Dificil":
-			fichero = new File(nFichero);
+			fichero = new File(url.getPath() + "Puntuaciones-" + nivel + ".obj");
 			break;
 		}
 		try {
