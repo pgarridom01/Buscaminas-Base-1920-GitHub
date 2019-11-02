@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
-import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -84,19 +83,19 @@ public class GuardarPuntuacion {
 		FileWriter fw = null;
 		PrintWriter pw = null;
 		File fichero = null;
-		URL url = getClass().getResource("material/");
+		String nFichero = "Ficheros de texto/Puntuaciones-Nivel" + nivel + ".txt";
 		// Dependiendo del nivel creo el fichero
 		switch (nivel) {
 
 		case "Facil":
-			fichero = new File(url.getPath() + "Puntuaciones-" + nivel + ".txt");
+			fichero = new File(nFichero);
 			break;
 		case "Medio":
-			fichero = new File(url.getPath() + "Puntuaciones-" + nivel + ".txt");
+			fichero = new File(nFichero);
 			
 			break;
 		case "Dificil":
-			fichero = new File(url.getPath() + "Puntuaciones-" + nivel + ".txt");
+			fichero = new File(nFichero);
 			break;
 		}
 		System.out.println(fichero.getPath());
@@ -123,18 +122,18 @@ public class GuardarPuntuacion {
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
 		File fichero = null;
-		URL url = getClass().getResource("/material/");
+		String nFichero = "Ficheros de objeto/Puntuaciones-Nivel" + nivel + ".obj";
 		// Dependiendo del nivel creo el fichero
 		switch (nivel) {
 
 		case "Facil":
-			fichero = new File(url.getPath() + "Puntuaciones-" + nivel + ".obj");
+			fichero = new File(nFichero);
 			break;
 		case "Medio":
-			fichero = new File(url.getPath() + "Puntuaciones-" + nivel + ".obj");
+			fichero = new File(nFichero);
 			break;
 		case "Dificil":
-			fichero = new File(url.getPath() + "Puntuaciones-" + nivel + ".obj");
+			fichero = new File(nFichero);
 			break;
 		}
 		try {
@@ -169,18 +168,18 @@ public class GuardarPuntuacion {
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;
 		File fichero = null;
-		URL url = getClass().getResource("/material/");
+		String nFichero = "Ficheros de objeto/Puntuaciones-Nivel" + nivel + ".obj";
 		// Dependiendo del nivel creo el fichero
 		switch (nivel) {
 
 		case "Facil":
-			fichero = new File(url.getPath() + "Puntuaciones-" + nivel + ".obj");
+			fichero = new File(nFichero);
 			break;
 		case "Medio":
-			fichero = new File(url.getPath() + "Puntuaciones-" + nivel + ".obj");
+			fichero = new File(nFichero);
 			break;
 		case "Dificil":
-			fichero = new File(url.getPath() + "Puntuaciones-" + nivel + ".obj");
+			fichero = new File(nFichero);
 			break;
 		}
 		try {

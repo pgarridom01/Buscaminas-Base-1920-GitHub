@@ -1,0 +1,5 @@
+Jugador - Nombre: Lucia - Puntuacion: 6 - Fecha: 2019-11-02 - Hora: 12:56:18.551
+Jugador - Nombre: Lucia - Puntuacion: 6 - Fecha: 2019-11-02 - Hora: 12:56:18.551
+Jugador - Nombre: Pablo - Puntuacion: 3 - Fecha: 2019-11-02 - Hora: 12:56:31.971
+Jugador - Nombre: Pablo - Puntuacion: 1 - Fecha: 2019-11-02 - Hora: 12:56:13.073
+Jugador - Nombre: Pablo - Puntuacion: 1 - Fecha: 2019-11-02 - Hora: 12:56:13.073
