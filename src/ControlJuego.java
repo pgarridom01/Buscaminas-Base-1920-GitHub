@@ -76,6 +76,8 @@ public class ControlJuego {
 				tablero[i][j] = 0;
 			}
 		}
+		ventana.cronometro.parar();
+		ventana.cronometro.comenzar();
 
 		puntuacion = 0;
 		// Creamos una variable boolean para saber si la posicion del tablero esta

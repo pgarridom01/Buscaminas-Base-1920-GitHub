@@ -38,6 +38,7 @@ public class VentanaPrincipal {
 	JPanel panelEmpezar;
 	JPanel panelPuntuacion;
 	JPanel panelJuego;
+	JConometro cronometro;
 
 	// Todos los botones se meten en un panel independiente.
 	// Hacemos esto para que podamos cambiar despuÃ©s los componentes por otros
@@ -61,6 +62,7 @@ public class VentanaPrincipal {
 		// Situo la ventana en el medio de la pantalla
 		ventana.setLocationRelativeTo(null);
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		cronometro = new JConometro();
 		juego = new ControlJuego(this);
 	}
 
@@ -71,8 +73,8 @@ public class VentanaPrincipal {
 		ventana.setLayout(new GridBagLayout());
 
 		// Inicializamos componentes
-		panelImagen = new JPanel();
-		panelImagen.setLayout(new GridLayout(3, 1));
+		
+
 		panelEmpezar = new JPanel();
 		panelEmpezar.setLayout(new GridLayout(1, 1));
 		panelPuntuacion = new JPanel();
@@ -87,8 +89,7 @@ public class VentanaPrincipal {
 		pantallaPuntuacion.setEditable(false);
 		pantallaPuntuacion.setHorizontalAlignment(SwingConstants.CENTER);
 
-		// Bordes y colores:
-		panelImagen.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+		// Bordes y colores:		
 		panelEmpezar.setBorder(BorderFactory.createTitledBorder("Empezar"));
 		panelPuntuacion.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 		panelJuego.setBorder(BorderFactory.createTitledBorder("Juego"));
@@ -100,7 +101,7 @@ public class VentanaPrincipal {
 		settings.gridy = 0;
 		settings.weightx = 1;
 		settings.fill = GridBagConstraints.BOTH;
-		ventana.add(panelImagen, settings);
+		ventana.add(cronometro, settings);
 		// VERDE
 		settings = new GridBagConstraints();
 		settings.gridx = 1;
@@ -147,7 +148,6 @@ public class VentanaPrincipal {
 		// BotÃ³nEmpezar:
 		panelEmpezar.add(botonEmpezar);
 		panelPuntuacion.add(pantallaPuntuacion);
-		guardar.colocarPuntuacion(juego.nivel, this);
 
 	}
 
@@ -229,39 +229,40 @@ public class VentanaPrincipal {
 
 		// Si hemos perdido.
 		if (explosion) {
+			cronometro.parar();
 			mostrarRestoTablero();
 			op = JOptionPane.showConfirmDialog(ventana,
 					"Una bomba ha explotado. ¿Quieres volver a jugar?\nPuntuacion: " + pantallaPuntuacion.getText(),
 					"HAS PERDIDO", JOptionPane.YES_NO_OPTION, 0, new ImageIcon(getClass().getResource("/material/emojiMuerto.png")));
+			
 		}
 		// Si hemos ganado.
 		if (!explosion && juego.esFinJuego()) {
+			cronometro.parar();
 			op = JOptionPane.showConfirmDialog(ventana,
 					"¿Quieres volver a jugar?\nPuntuacion: " + pantallaPuntuacion.getText(), "HAS GANADO.",
 					JOptionPane.YES_NO_OPTION, 0, new ImageIcon(getClass().getResource("/material/emojiFeliz.png")));
-
+			
 		}
 		// Si es si iniciamos de nuevo el juego.
 		if (op == 0) {
+			cronometro.parar();
 			reiniciarPartida();
 			for (int i = 0; i < botonesJuego.length; i++) {
 				for (int j = 0; j < botonesJuego.length; j++) {
 					botonesJuego[i][j].setIcon(null);
 				}
 			}
-			guardar.guardarPuntuacion(this, juego.nivel);
 			botonEmpezar.setIcon(new ImageIcon(getClass().getResource("/material/emojiFeliz.png")));
 			actualizarPuntuacion();
 			refrescarPantalla();
 		}
 		// Si es no cerramos el juego.
 		if (op == 1) {
-			guardar.guardarPuntuacion(this, juego.nivel);
 			ventana.dispose();
 		}
 		// Si pulsamos la X entendemos que tampoco quiere seguir jugando
 		if (op == -1) {
-			guardar.guardarPuntuacion(this, juego.nivel);
 			ventana.dispose();
 		}
 
